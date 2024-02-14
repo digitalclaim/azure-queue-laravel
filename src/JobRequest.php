@@ -14,20 +14,20 @@ class JobRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'                       => 'required|string',
-            'message'                  => 'required|array',
-            'message.uid'              => 'required|string',
-            'message.displayName'      => 'required|string',
-            'message.job'              => 'required|string',
-            'message.data'             => 'required|array',
+            'id' => 'required|string',
+            'message' => 'required|array',
+            'message.uid' => 'required|string',
+            'message.displayName' => 'required|string',
+            'message.job' => 'required|string',
+            'message.data' => 'required|array',
             'message.data.commandName' => 'required|string',
-            'message.data.command'     => 'required|string',
-            'meta'                     => 'required|array',
-            'meta.dequeueCount'        => 'required|numeric',
-            'meta.expirationTime'      => 'required|string',
-            'meta.insertionTime'       => 'required|string',
-            'meta.nextVisibleTime'     => 'required|string',
-            'meta.popReceipt'          => 'required|string',
+            'message.data.command' => 'required|string',
+            'meta' => 'required|array',
+            'meta.dequeueCount' => 'required|numeric',
+            'meta.expirationTime' => 'required|string',
+            'meta.insertionTime' => 'required|string',
+            'meta.nextVisibleTime' => 'required|string',
+            'meta.popReceipt' => 'required|string',
         ];
     }
 }
