@@ -6,8 +6,17 @@ use DigitalClaim\AzureQueue\Connector;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
+/**
+ * ServiceProvider
+ */
 class ServiceProvider extends PackageServiceProvider
 {
+    /**
+     * configurePackage
+     *
+     * @param  mixed $package
+     * @return void
+     */
     public function configurePackage(Package $package): void
     {
         /*
@@ -22,7 +31,9 @@ class ServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * bootingPackage
+     *
+     * @return void
      */
     public function bootingPackage(): void
     {

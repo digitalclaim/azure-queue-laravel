@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
 
+/**
+ * Controller
+ */
 class Controller
 {
     /**
@@ -18,29 +21,41 @@ class Controller
      */
     protected $jobHandler;
 
+    /**
+     * __construct
+     *
+     * @param  mixed $jobHandler
+     * @return void
+     */
     public function __construct(JobHandler $jobHandler)
     {
         $this->jobHandler = $jobHandler;
     }
 
+    /**
+     * handle
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function handle(JobRequest $request)
     {
-        \Log::info('We got some request', [
-            'request' => $request->all(),
-        ]);
-
         $input = $request->validated();
 
         $message = QueueMessage::createFromListMessages([
-            'MessageId' => Arr::get($input, 'id'),
-            'DequeueCount' => Arr::get($input, 'meta.dequeueCount'),
-            'ExpirationTime' => Carbon::parse(Arr::get($input, 'meta.expirationTime'))->format(self::AZURE_DATE_TIME_FORMAT),
-            'InsertionTime' => Carbon::parse(Arr::get($input, 'meta.insertionTime'))->format(self::AZURE_DATE_TIME_FORMAT),
+            'MessageId'       => Arr::get($input, 'id'),
+            'DequeueCount'    => Arr::get($input, 'meta.dequeueCount'),
+            'ExpirationTime'  => Carbon::parse(Arr::get($input, 'meta.expirationTime'))->format(self::AZURE_DATE_TIME_FORMAT),
+            'InsertionTime'   => Carbon::parse(Arr::get($input, 'meta.insertionTime'))->format(self::AZURE_DATE_TIME_FORMAT),
             'TimeNextVisible' => Carbon::parse(Arr::get($input, 'meta.nextVisibleTime'))->format(self::AZURE_DATE_TIME_FORMAT),
-            'PopReceipt' => Arr::get($input, 'meta.popReceipt'),
-            'MessageText' => json_encode(Arr::get($input, 'message')),
+            'PopReceipt'      => Arr::get($input, 'meta.popReceipt'),
+            'MessageText'     => json_encode(Arr::get($input, 'message')),
         ]);
 
-        return $this->jobHandler->handle($message, Arr::get($input, 'meta.queueName', null));
+        $job = $this->jobHandler->handle($message, Arr::get($input, 'meta.queueName', null));
+
+        return [
+            'uuid' => $job->uuid(),
+        ];
     }
 }

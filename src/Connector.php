@@ -6,21 +6,27 @@ use Illuminate\Queue\Connectors\ConnectorInterface;
 use MicrosoftAzure\Storage\Queue\QueueRestProxy;
 use Squigg\AzureQueueLaravel\AzureQueue;
 
+/**
+ * Connector
+ */
 class Connector implements ConnectorInterface
 {
     /**
      * Establish a queue connection.
+     *
+     * @param  mixed $config
+     * @return AzureQueue
      */
     public function connect(array $config): AzureQueue
     {
-        $connectionString = 'DefaultEndpointsProtocol='.$config['protocol'].';AccountName='.$config['accountname'].';AccountKey='.$config['key'];
+        $connectionString = 'DefaultEndpointsProtocol=' . $config['protocol'] . ';AccountName=' . $config['accountname'] . ';AccountKey=' . $config['key'];
 
         if (isset($config['endpoint']) && $config['endpoint'] !== '') {
-            $connectionString .= ';EndpointSuffix='.$config['endpoint'];
+            $connectionString .= ';EndpointSuffix=' . $config['endpoint'];
         }
 
         if (isset($config['queue_endpoint']) && $config['queue_endpoint'] !== '') {
-            $connectionString .= ';QueueEndpoint='.$config['queue_endpoint'];
+            $connectionString .= ';QueueEndpoint=' . $config['queue_endpoint'];
         }
 
         $queueRestProxy = QueueRestProxy::createQueueService($connectionString);
