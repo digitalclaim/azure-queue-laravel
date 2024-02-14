@@ -13,14 +13,14 @@ class Connector implements ConnectorInterface
      */
     public function connect(array $config): AzureQueue
     {
-        $connectionString = 'DefaultEndpointsProtocol=' . $config['protocol'] . ';AccountName=' . $config['accountname'] . ';AccountKey=' . $config['key'];
+        $connectionString = 'DefaultEndpointsProtocol='.$config['protocol'].';AccountName='.$config['accountname'].';AccountKey='.$config['key'];
 
         if (isset($config['endpoint']) && $config['endpoint'] !== '') {
-            $connectionString .= ';EndpointSuffix=' . $config['endpoint'];
+            $connectionString .= ';EndpointSuffix='.$config['endpoint'];
         }
 
         if (isset($config['queue_endpoint']) && $config['queue_endpoint'] !== '') {
-            $connectionString .= ';QueueEndpoint=' . $config['queue_endpoint'];
+            $connectionString .= ';QueueEndpoint='.$config['queue_endpoint'];
         }
 
         $queueRestProxy = QueueRestProxy::createQueueService($connectionString);
