@@ -6,9 +6,18 @@ use Illuminate\Queue\WorkerOptions;
 use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
 use Squigg\AzureQueueLaravel\AzureJob;
 
+/**
+ * JobHandler
+ */
 class JobHandler
 {
-    public function handle(QueueMessage $message, ?string $queue = null): array
+    /**
+     * handle
+     *
+     * @param  mixed  $message
+     * @param  mixed  $queue
+     */
+    public function handle(QueueMessage $message, ?string $queue = null): AzureJob
     {
         $job = new AzureJob(
             app('queue')->getContainer(),
@@ -22,6 +31,8 @@ class JobHandler
         $options->backoff = config('azure-queue-laravel.worker.backoff', 60 * 5);
         $options->maxTries = config('azure-queue-laravel.worker.maxTries', 3);
 
-        return app('queue.worker')->process(app('queue')->getConnectionName(), $job, $options);
+        app('queue.worker')->process(app('queue')->getConnectionName(), $job, $options);
+
+        return $job;
     }
 }

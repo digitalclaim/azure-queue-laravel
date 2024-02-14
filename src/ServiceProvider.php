@@ -5,8 +5,16 @@ namespace DigitalClaim\AzureQueue;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
+/**
+ * ServiceProvider
+ */
 class ServiceProvider extends PackageServiceProvider
 {
+    /**
+     * configurePackage
+     *
+     * @param  mixed  $package
+     */
     public function configurePackage(Package $package): void
     {
         /*
@@ -21,7 +29,7 @@ class ServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * bootingPackage
      */
     public function bootingPackage(): void
     {

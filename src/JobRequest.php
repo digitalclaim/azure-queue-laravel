@@ -4,6 +4,9 @@ namespace DigitalClaim\AzureQueue;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * JobRequest
+ */
 class JobRequest extends FormRequest
 {
     /**
@@ -16,7 +19,7 @@ class JobRequest extends FormRequest
         return [
             'id' => 'required|string',
             'message' => 'required|array',
-            'message.uid' => 'required|string',
+            'message.uuid' => 'required|string',
             'message.displayName' => 'required|string',
             'message.job' => 'required|string',
             'message.data' => 'required|array',

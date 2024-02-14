@@ -6,10 +6,15 @@ use Illuminate\Queue\Connectors\ConnectorInterface;
 use MicrosoftAzure\Storage\Queue\QueueRestProxy;
 use Squigg\AzureQueueLaravel\AzureQueue;
 
+/**
+ * Connector
+ */
 class Connector implements ConnectorInterface
 {
     /**
      * Establish a queue connection.
+     *
+     * @param  mixed  $config
      */
     public function connect(array $config): AzureQueue
     {
