@@ -1,6 +1,6 @@
 {
     "name": "digitalclaim/azure-queue-laravel",
-    "description": "This is my package azure-queue-laravel",
+    "description": "Azure Storage Queue for Laravel based on triggered Azure Functions.",
     "keywords": [
         "digitalclaim",
         "laravel",
