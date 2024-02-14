@@ -13,8 +13,7 @@ class ServiceProvider extends PackageServiceProvider
     /**
      * configurePackage
      *
-     * @param  mixed $package
-     * @return void
+     * @param  mixed  $package
      */
     public function configurePackage(Package $package): void
     {
@@ -31,8 +30,6 @@ class ServiceProvider extends PackageServiceProvider
 
     /**
      * bootingPackage
-     *
-     * @return void
      */
     public function bootingPackage(): void
     {

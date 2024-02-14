@@ -24,7 +24,7 @@ class Controller
     /**
      * __construct
      *
-     * @param  mixed $jobHandler
+     * @param  mixed  $jobHandler
      * @return void
      */
     public function __construct(JobHandler $jobHandler)
@@ -35,7 +35,7 @@ class Controller
     /**
      * handle
      *
-     * @param  mixed $request
+     * @param  mixed  $request
      * @return void
      */
     public function handle(JobRequest $request)
@@ -43,13 +43,13 @@ class Controller
         $input = $request->validated();
 
         $message = QueueMessage::createFromListMessages([
-            'MessageId'       => Arr::get($input, 'id'),
-            'DequeueCount'    => Arr::get($input, 'meta.dequeueCount'),
-            'ExpirationTime'  => Carbon::parse(Arr::get($input, 'meta.expirationTime'))->format(self::AZURE_DATE_TIME_FORMAT),
-            'InsertionTime'   => Carbon::parse(Arr::get($input, 'meta.insertionTime'))->format(self::AZURE_DATE_TIME_FORMAT),
+            'MessageId' => Arr::get($input, 'id'),
+            'DequeueCount' => Arr::get($input, 'meta.dequeueCount'),
+            'ExpirationTime' => Carbon::parse(Arr::get($input, 'meta.expirationTime'))->format(self::AZURE_DATE_TIME_FORMAT),
+            'InsertionTime' => Carbon::parse(Arr::get($input, 'meta.insertionTime'))->format(self::AZURE_DATE_TIME_FORMAT),
             'TimeNextVisible' => Carbon::parse(Arr::get($input, 'meta.nextVisibleTime'))->format(self::AZURE_DATE_TIME_FORMAT),
-            'PopReceipt'      => Arr::get($input, 'meta.popReceipt'),
-            'MessageText'     => json_encode(Arr::get($input, 'message')),
+            'PopReceipt' => Arr::get($input, 'meta.popReceipt'),
+            'MessageText' => json_encode(Arr::get($input, 'message')),
         ]);
 
         $job = $this->jobHandler->handle($message, Arr::get($input, 'meta.queueName', null));
