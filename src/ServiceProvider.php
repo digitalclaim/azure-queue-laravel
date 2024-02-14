@@ -8,9 +8,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class ServiceProvider extends PackageServiceProvider
 {
-    /**
-     *
-     */
     public function configurePackage(Package $package): void
     {
         /*
@@ -26,8 +23,6 @@ class ServiceProvider extends PackageServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function bootingPackage(): void
     {

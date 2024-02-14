@@ -14,14 +14,14 @@ class JobRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'                   => 'required|string',
-            'message'              => 'required|array',
-            'meta'                 => 'required|array',
-            'meta.dequeueCount'    => 'required|numeric',
-            'meta.expirationTime'  => 'required|string',
-            'meta.insertionTime'   => 'required|string',
+            'id' => 'required|string',
+            'message' => 'required|array',
+            'meta' => 'required|array',
+            'meta.dequeueCount' => 'required|numeric',
+            'meta.expirationTime' => 'required|string',
+            'meta.insertionTime' => 'required|string',
             'meta.nextVisibleTime' => 'required|string',
-            'meta.popReceipt'      => 'required|string',
+            'meta.popReceipt' => 'required|string',
         ];
     }
 }
