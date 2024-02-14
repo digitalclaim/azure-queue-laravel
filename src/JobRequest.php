@@ -16,6 +16,12 @@ class JobRequest extends FormRequest
         return [
             'id' => 'required|string',
             'message' => 'required|array',
+            'message.uid' => 'required|string',
+            'message.displayName' => 'required|string',
+            'message.job' => 'required|string',
+            'message.data' => 'required|array',
+            'message.data.commandName' => 'required|string',
+            'message.data.command' => 'required|string',
             'meta' => 'required|array',
             'meta.dequeueCount' => 'required|numeric',
             'meta.expirationTime' => 'required|string',

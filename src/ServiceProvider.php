@@ -17,7 +17,7 @@ class ServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('azure-queue-laravel')
-            ->hasRoute('api')
+            ->hasRoute('web')
             ->hasConfigFile();
     }
 
@@ -29,7 +29,7 @@ class ServiceProvider extends PackageServiceProvider
         /** @var QueueManager $manager */
         $manager = $this->app['queue'];
 
-        $manager->addConnector('azure', function () {
+        $manager->addConnector('azurepush', function () {
             return new Connector;
         });
     }

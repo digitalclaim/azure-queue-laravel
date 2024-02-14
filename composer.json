@@ -1,5 +1,5 @@
 {
-    "name": "milo/azure-queue-laravel",
+    "name": "digitalclaim/azure-queue-laravel",
     "description": "This is my package azure-queue-laravel",
     "keywords": [
         "digitalclaim",
@@ -73,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DigitalClaim\\AzureQueue\\AzureQueueServiceProvider"
+                "DigitalClaim\\AzureQueue\\ServiceProvider"
             ]
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
