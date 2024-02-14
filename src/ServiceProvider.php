@@ -2,7 +2,7 @@
 
 namespace DigitalClaim\AzureQueue;
 
-use DigitalClaim\Connector;
+use DigitalClaim\AzureQueue\Connector;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
