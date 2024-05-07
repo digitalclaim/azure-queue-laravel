@@ -87,7 +87,7 @@ AZURE_QUEUE_NAME=YOUR_QUEUE_NAME
 #AZURE_QUEUE_ENDPOINT=https
 ```
 
-4. Trigger Azure Function App (nodejs) for new queue items (see https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger)
+4. Trigger Azure Function (nodejs) for new queue items (see https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger)
 
 ```javascript
 const axios = require("axios");
