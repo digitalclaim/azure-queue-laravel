@@ -42,7 +42,7 @@ class ServiceProvider extends PackageServiceProvider
         $repository = config('azure-queue-laravel.job.payloadRepository', JobRepository::class);
 
         $this->app->singleton(PayloadRepositoryInterface::class, function (Application $app) use ($repository) {
-            return new $repository();
+            return new $repository;
         });
 
         /** @var QueueManager $manager */
