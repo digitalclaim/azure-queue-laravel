@@ -12,11 +12,15 @@ use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
 class Controller
 {
     /**
+     * AZURE_DATE_TIME_FORMAT
+     *
      * @var string Azure date time format
      */
     private const AZURE_DATE_TIME_FORMAT = 'D, d M Y H:i:s T';
 
     /**
+     * jobHandler
+     *
      * @var \DigitalClaim\AzureQueue\JobHandler
      */
     protected $jobHandler;

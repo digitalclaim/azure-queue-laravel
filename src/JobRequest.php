@@ -16,15 +16,9 @@ class JobRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'id' => 'required|string',
-            'message' => 'required|array',
-            'message.uuid' => 'required|string',
-            'message.displayName' => 'required|string',
-            'message.job' => 'required|string',
-            'message.data' => 'required|array',
-            'message.data.commandName' => 'required|string',
-            'message.data.command' => 'required|string',
+            'message' => 'required',
             'meta' => 'required|array',
             'meta.dequeueCount' => 'required|numeric',
             'meta.expirationTime' => 'required|string',
@@ -32,5 +26,20 @@ class JobRequest extends FormRequest
             'meta.nextVisibleTime' => 'required|string',
             'meta.popReceipt' => 'required|string',
         ];
+
+        $payloadRepository = resolve(PayloadRepositoryInterface::class);
+
+        if (get_class($payloadRepository) === PayloadRepository::class) {
+            $rules += [
+                'message.uuid' => 'required|string',
+                'message.displayName' => 'required|string',
+                'message.job' => 'required|string',
+                'message.data' => 'required|array',
+                'message.data.commandName' => 'required|string',
+                'message.data.command' => 'required|string',
+            ];
+        }
+
+        return $rules;
     }
 }

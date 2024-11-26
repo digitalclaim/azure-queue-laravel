@@ -3,6 +3,7 @@
 namespace DigitalClaim\AzureQueue\Tests;
 
 use DigitalClaim\AzureQueue\ServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

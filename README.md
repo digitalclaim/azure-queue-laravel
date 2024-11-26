@@ -46,15 +46,56 @@ You can publish the config file with:
 php artisan vendor:publish --tag="azure-queue-laravel-config"
 ```
 
-This is the contents of the published config file:
+With the config it is possible to set a custom repository for the payload. This is usefull when one has to work with messages > 64kb (Azure Limit). This is the contents of the published config file:
 
 ```php
+use DigitalClaim\AzureQueue\PayloadRepository;
+
 return [
+    'job' => [
+        'payloadRepository' => PayloadRepository::class,
+    ],
     'worker' => [
-        'backoff' => env('DIGITALCLAIM_AZURE_QUEUE_LARAVEL_BACKOFF', 60 * 5), // backoff time in seconds
-        'maxTries' => env('DIGITALCLAIM_AZURE_QUEUE_LARAVEL_MAXTRIES', 3), // max number of retries
+        'backoff' => env('DIGITALCLAIM_AZURE_QUEUE_LARAVEL_BACKOFF', 60 * 5),
+        'maxTries' => env('DIGITALCLAIM_AZURE_QUEUE_LARAVEL_MAXTRIES', 3),
     ],
 ];
+
+```
+
+Some example for a custom payload repository:
+
+```php
+'job' => [
+    'payloadRepository' => new class extends \DigitalClaim\AzureQueue\PayloadRepository
+    {
+        /**
+         * get entry to load long message text
+         */
+        public function get(QueueMessage $message): string
+        {
+            $payload = json_decode($message->getMessageText(), true);
+
+            $entry = ...; // load entry from you db
+
+            return json_encode($entry['payload']);
+        }
+
+        /**
+         * create entry to store long message text and returns the short message text (max 64kb) for the Azure Queue
+         */
+        public function create(string $payload): string
+        {
+            $payload = json_decode($payload, true);
+
+            $id = ...; // save payload to db entry
+
+            return json_encode([
+                'id' => $id,
+            ]);
+        }
+    },
+],
 ```
 
 ## Usage
@@ -87,7 +128,7 @@ AZURE_QUEUE_NAME=YOUR_QUEUE_NAME
 #AZURE_QUEUE_ENDPOINT=https
 ```
 
-4. Trigger Azure Function App (nodejs) for new queue items (see https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger)
+4. Trigger Azure Function (nodejs) for new queue items (see https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-trigger)
 
 ```javascript
 const axios = require("axios");

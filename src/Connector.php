@@ -2,6 +2,7 @@
 
 namespace DigitalClaim\AzureQueue;
 
+use Exception;
 use Illuminate\Queue\Connectors\ConnectorInterface;
 use MicrosoftAzure\Storage\Queue\QueueRestProxy;
 use Squigg\AzureQueueLaravel\AzureQueue;
@@ -40,7 +41,17 @@ class Connector implements ConnectorInterface
              */
             public function pushRaw($payload, $queue = null, array $options = []): void
             {
-                $this->azure->createMessage($this->getQueue($queue), base64_encode($payload));
+                $payload = resolve(PayloadRepositoryInterface::class)->create($payload);
+
+                try {
+                    $this->azure->createMessage($this->getQueue($queue), base64_encode($payload));
+                } catch (Exception $exception) {
+                    if ($this->container->bound('events')) {
+                        $this->container['events']->dispatch(new JobCreationExceptionEvent($this->connectionName, $payload, $exception));
+                    }
+
+                    throw $exception;
+                }
             }
         };
     }
