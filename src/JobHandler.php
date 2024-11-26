@@ -19,6 +19,10 @@ class JobHandler
      */
     public function handle(QueueMessage $message, ?string $queue = null): AzureJob
     {
+        $messageText = resolve(PayloadRepositoryInterface::class)->get($message);
+
+        $message->setMessageText($messageText);
+
         $job = new AzureJob(
             app('queue')->getContainer(),
             app('queue')->getAzure(),
