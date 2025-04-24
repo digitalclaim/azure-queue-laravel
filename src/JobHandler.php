@@ -31,7 +31,7 @@ class JobHandler
             app('queue')->getQueue($queue)
         );
 
-        $options = new WorkerOptions();
+        $options = new WorkerOptions;
         $options->backoff = config('azure-queue-laravel.worker.backoff', 60 * 5);
         $options->maxTries = config('azure-queue-laravel.worker.maxTries', 3);
 
