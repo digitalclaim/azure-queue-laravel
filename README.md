@@ -110,7 +110,6 @@ Some example for a custom payload repository:
     'accountname' => env('AZURE_QUEUE_STORAGE_NAME'), // Azure storage account name
     'key' => env('AZURE_QUEUE_KEY'), // Access key for storage account
     'queue' => env('AZURE_QUEUE_NAME'), // Queue container name
-    'timeout' => 60, // Seconds before a job is released back to the queue
     'endpoint' => env('AZURE_QUEUE_ENDPOINTSUFFIX'), // Optional endpoint suffix if different from core.windows.net
     'queue_endpoint' => env('AZURE_QUEUE_ENDPOINT'), // Optional endpoint for custom addresses like http://localhost/my_storage_name
 ],
@@ -134,29 +133,17 @@ AZURE_QUEUE_NAME=YOUR_QUEUE_NAME
 const axios = require("axios");
 
 module.exports = async function (context, myQueueItem, more) {
-    try {
-        const response = await axios.post(
-            "https://YOURSITE.azurewebsites.net/handle-queue",
-            {
-                id: context.bindingData.id,
-                message: myQueueItem,
-                meta: {
-                    dequeueCount: context.bindingData.dequeueCount,
-                    expirationTime: context.bindingData.expirationTime,
-                    insertionTime: context.bindingData.insertionTime,
-                    nextVisibleTime: context.bindingData.nextVisibleTime,
-                    popReceipt: context.bindingData.popReceipt,
-                },
-            }
-        );
-
-        context.log(response.data);
-    } catch (error) {
-        // If the promise rejects, an error will be thrown and caught here
-        context.log(error);
-    }
-
-    context.done();
+    await instance.post(process.env["QUEUE_CALLBACK_URL"], {
+        id: context.triggerMetadata.id,
+        message: queueItem,
+        meta: {
+            dequeueCount: context.triggerMetadata.dequeueCount,
+            expirationTime: context.triggerMetadata.expirationTime,
+            insertionTime: context.triggerMetadata.insertionTime,
+            nextVisibleTime: context.triggerMetadata.nextVisibleTime,
+            popReceipt: context.triggerMetadata.popReceipt,
+        },
+    });
 };
 ```
 
