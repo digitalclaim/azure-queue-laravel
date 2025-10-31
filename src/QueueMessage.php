@@ -18,8 +18,6 @@ class QueueMessage extends BaseQueueMessage
 
     /**
      * Gets query field.
-     *
-     * @return string
      */
     public function getQuery(): string
     {
@@ -28,8 +26,6 @@ class QueueMessage extends BaseQueueMessage
 
     /**
      * Sets query field.
-     *
-     * @param string $query
      */
     public function setQuery(string $query): void
     {
