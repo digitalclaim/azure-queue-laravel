@@ -36,7 +36,7 @@ class ServiceProvider extends PackageServiceProvider
     {
         // php artisan vendor:publish --tag=azure-queue-laravel
         $this->publishes([
-            __DIR__ . '/../config/azure-queue-laravel.php' => config_path('azure-queue-laravel.php'),
+            __DIR__.'/../config/azure-queue-laravel.php' => config_path('azure-queue-laravel.php'),
         ], 'azure-queue-laravel');
 
         $repository = config('azure-queue-laravel.job.payloadRepository', JobRepository::class);
