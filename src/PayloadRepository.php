@@ -2,8 +2,6 @@
 
 namespace DigitalClaim\AzureQueue;
 
-use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
-
 /**
  * JobRepository
  */

@@ -3,7 +3,6 @@
 namespace DigitalClaim\AzureQueue;
 
 use Illuminate\Queue\WorkerOptions;
-use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
 use Squigg\AzureQueueLaravel\AzureJob;
 
 /**

@@ -4,7 +4,6 @@ namespace DigitalClaim\AzureQueue;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use MicrosoftAzure\Storage\Queue\Models\QueueMessage;
 
 /**
  * Controller
@@ -55,6 +54,8 @@ class Controller
             'PopReceipt' => Arr::get($input, 'meta.popReceipt'),
             'MessageText' => json_encode(Arr::get($input, 'message')),
         ]);
+
+        $message->setQuery(json_encode(Arr::get($input, 'message')));
 
         $job = $this->jobHandler->handle($message, Arr::get($input, 'meta.queueName', null));
 
