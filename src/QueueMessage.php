@@ -2,8 +2,8 @@
 
 namespace DigitalClaim\AzureQueue;
 
-use MicrosoftAzure\Storage\Queue\Models\QueueMessage as BaseQueueMessage;
 use MicrosoftAzure\Storage\Common\Internal\Utilities;
+use MicrosoftAzure\Storage\Queue\Models\QueueMessage as BaseQueueMessage;
 
 /**
  * QueueMessage
