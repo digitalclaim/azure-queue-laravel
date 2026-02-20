@@ -30,6 +30,15 @@
     <logging>
         <junit outputFile="build/report.junit.xml" />
     </logging>
+    <php>
+        <env name="AZURE_QUEUE_DRIVER" value="azurepush" />
+        <env name="AZURE_QUEUE_PROTOCOL" value="http" />
+        <env name="AZURE_QUEUE_ACCOUNT_NAME" value="devstoreaccount1" />
+        <env name="AZURE_QUEUE_KEY"
+            value="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" />
+        <env name="AZURE_QUEUE_NAME" value="package-test-queue" />
+        <env name="AZURE_QUEUE_ENDPOINT" value="http://127.0.0.1:10001/devstoreaccount1" />
+    </php>
     <source>
         <include>
             <directory suffix=".php">./src</directory>

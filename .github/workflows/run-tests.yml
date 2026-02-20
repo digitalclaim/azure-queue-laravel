@@ -3,11 +3,11 @@ name: run-tests
 on:
   push:
     paths:
-      - '**.php'
-      - '.github/workflows/run-tests.yml'
-      - 'phpunit.xml.dist'
-      - 'composer.json'
-      - 'composer.lock'
+      - "**.php"
+      - ".github/workflows/run-tests.yml"
+      - "phpunit.xml.dist"
+      - "composer.json"
+      - "composer.lock"
 
 jobs:
   test:
@@ -17,7 +17,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.3, 8.2, 8.1]
+        php: [8.3, 8.2]
         laravel: [10.*]
         stability: [prefer-lowest, prefer-stable]
         include:
@@ -26,6 +26,14 @@ jobs:
             carbon: ^2.63
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
+    services:
+      azurite:
+        image: mcr.microsoft.com/azure-storage/azurite
+        ports:
+          - 10000:10000
+          - 10001:10001
+          - 10002:10002
 
     steps:
       - name: Checkout code
@@ -47,6 +55,20 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Create Azurite test queue
+        run: |
+          # Wait for Azurite to be ready
+          for i in $(seq 1 15); do curl -sf http://127.0.0.1:10001/ > /dev/null 2>&1 && break || sleep 1; done
+          # Create the queue using the PHP Azure SDK already installed via composer
+          php -r "
+            require 'vendor/autoload.php';
+            \$proxy = MicrosoftAzure\Storage\Queue\QueueRestProxy::createQueueService(
+              'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1'
+            );
+            \$proxy->createQueue('package-test-queue');
+            echo 'Queue created' . PHP_EOL;
+          "
 
       - name: List Installed Dependencies
         run: composer show -D

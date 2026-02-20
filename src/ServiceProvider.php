@@ -39,7 +39,7 @@ class ServiceProvider extends PackageServiceProvider
             __DIR__.'/../config/azure-queue-laravel.php' => config_path('azure-queue-laravel.php'),
         ], 'azure-queue-laravel');
 
-        $repository = config('azure-queue-laravel.job.payloadRepository', JobRepository::class);
+        $repository = config('azure-queue-laravel.job.payloadRepository', PayloadRepository::class);
 
         $this->app->singleton(PayloadRepositoryInterface::class, function (Application $app) use ($repository) {
             return new $repository;
