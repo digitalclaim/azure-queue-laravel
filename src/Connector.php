@@ -4,7 +4,9 @@ namespace DigitalClaim\AzureQueue;
 
 use Exception;
 use Illuminate\Queue\Connectors\ConnectorInterface;
+use MicrosoftAzure\Storage\Queue\Models\ListMessagesOptions;
 use MicrosoftAzure\Storage\Queue\QueueRestProxy;
+use Squigg\AzureQueueLaravel\AzureJob;
 use Squigg\AzureQueueLaravel\AzureQueue;
 
 /**
@@ -52,6 +54,32 @@ class Connector implements ConnectorInterface
 
                     throw $exception;
                 }
+            }
+
+            /**
+             * Pop the next job off of the queue.
+             *
+             * @param  string|null  $queue
+             */
+            public function pop($queue = null): ?AzureJob
+            {
+                $queue = $this->getQueue($queue);
+
+                $listMessagesOptions = new ListMessagesOptions;
+                $listMessagesOptions->setVisibilityTimeoutInSeconds($this->visibilityTimeout);
+                $listMessagesOptions->setNumberOfMessages(1);
+
+                $listMessages = $this->azure->listMessages($queue, $listMessagesOptions);
+                $messages = $listMessages->getQueueMessages();
+
+                if (count($messages) > 0) {
+                    $message = $messages[0];
+                    $message->setMessageText(base64_decode($message->getMessageText()));
+
+                    return new AzureJob($this->container, $this->azure, $message, $this->connectionName, $queue);
+                }
+
+                return null;
             }
         };
     }
